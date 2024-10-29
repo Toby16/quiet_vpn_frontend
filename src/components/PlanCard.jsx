@@ -28,6 +28,7 @@ const PlanCard = () => {
     updateNameAndFlag();
   }, [])
   const purchasePlan = async () => {
+    alert("Thank you for your enthusiasm, will be availble soon")
     try {
       const response = await axiosInstance.get("/server/get_all_servers/", {
         headers: {'Content-Type': 'application/json'},

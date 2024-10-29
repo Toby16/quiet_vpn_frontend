@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
   return (
-    <nav className="opacity-90 bg-bg_100 shadow fixed z-50 w-full top-0">
+    <nav className="opacity-95 bg-bg_100 shadow fixed z-50 w-full top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
 
@@ -63,7 +63,7 @@ const Navbar = () => {
               </button>
               {
                 menuOpen ?
-                  <div className="absolute h-[100vh] right-0 flex flex-col top-16 py-6 px-5 gap-3 rounded-b-md z-30 bg-bg_100">
+                  <div className="absolute h-[100v] right-0 flex flex-col top-16 py-6 px-5 gap-3 rounded-b-md z-10 bg-bg_100 shadow">
                     {
                       navlinks.map((link, index) => {
                         return (
