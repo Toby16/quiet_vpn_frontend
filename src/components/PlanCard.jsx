@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Lock, Globe, ChevronRight } from "lucide-react"
 import axios from "axios"
+import axiosInstance from "../axios.jsx"
 import { useEffect, useState } from "react"
 import { choose, randomNumber } from "../utils/utils"
 
@@ -27,13 +28,23 @@ const PlanCard = () => {
     updateNameAndFlag();
   }, [])
   const purchasePlan = async () => {
-   
+    try {
+      const response = await axiosInstance.get("/server/get_all_servers/", {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true
+      }
+    )
+      console.log(response)
+    } catch (error) {
+      console.error(error )
+    }
+    
   }
   const [countryFlag, setCountryFlag] = useState('')
   return (
     <div className="p-6 bg-bg_200 rounded-lg shadow">
       <div className="space-x-2 flex items-center">
-        <Globe className="w-6 h-6 text-indigo-600" />
+        <Globe className="w-6 h-6 text-indigo-600 shrink-0" />
         <img className="h-6 w-auto" src={flag} alt="coutryflag" />
         <h3 className="text-lg font-medium text-text_100">{area}</h3>
       </div>

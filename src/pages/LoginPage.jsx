@@ -27,24 +27,20 @@ const LoginPage = () => {
       password: pwd,
     }
     console .log(loginData)
-    // let servers = await axiosInstance.get("/server/get_all_servers")
-    // console.log(servers)
-    // return
     try {
       const response = await axiosInstance.post("/account/login", JSON.stringify(loginData), {
         headers: {'Content-Type': 'application/json'},
         withCredentials: true
       })
-      console.log(response)
-      setEmail('')
-      setPwd('')
+      console.log(response.data.token)
     } catch (error) {
       if(!error?.message){
         setErrMsg("No server response")
       } else if (errMsg.response?.status === 409) {
-        // setErrMsg('Username Taken')
+        // setErrMsg('This user does not exsit')
+        setErrMsg("Incorrect Username or Password")
       } else {
-        setErrMsg("Login Failed")
+        setErrMsg("Incorrect Username or Password")
       }
       errRef.current.focus();
     }
@@ -73,7 +69,7 @@ const LoginPage = () => {
           <form className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-text_200">
-                Email address
+                Email addresss Or Username
               </label>
               <div className="mt-1">
                 <input
@@ -127,7 +123,7 @@ const LoginPage = () => {
 
           <div className='mt-10 flex flex-center '>
             <span className='text-text_200'>{"Don't have an acocunt?"} </span>
-            <a href='' onClick={()=>navigate("/signup")} className='text-indigo-600 underline'>Sign Up</a>
+            <a href='/signup' onClick={(e)=>{e.preventDefault(); navigate("/signup")}} className='text-indigo-600 underline'>Sign Up</a>
           </div>
         </div>
       </div>

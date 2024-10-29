@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-  // baseURL: '/api',
   baseURL: 'https://quiet.pumpeet.me',
-  withCredentials: true, 
+  withCredentials: true,
+  // credentials: "include", 
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
   }
 });
 

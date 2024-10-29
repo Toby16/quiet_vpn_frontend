@@ -1,17 +1,21 @@
+/* eslint-disable no-unused-vars */
 import axiosInstance from '../axios.jsx';
 import { Shield, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import { useRef } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const EMAIL_REGEX = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/
+const EMAIL_REGEX = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/
 
 const SignUpPage = () => {
   const aRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+
+  const [awaitingResponse, setAwaitingResponse] = useState(false)
 
   const [user, setUser] = useState('');
   const [validName, setValidName] = useState(false)
@@ -53,13 +57,13 @@ const SignUpPage = () => {
 
   // const navigate = useNavigate();
   const submitForm = async () => {
-     // if button enabled with JS hack
-     const test1 = USER_REGEX.test(user);
-     const test2 = PWD_REGEX.test(pwd);
-     if (!test1 || !test2) {
-         setErrMsg("Invalid Entry");
-         return;
-     }
+    // if button enabled with JS hack
+    const test1 = USER_REGEX.test(user);
+    const test2 = PWD_REGEX.test(pwd);
+    if (!test1 || !test2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
 
 
     const signupData = {
@@ -67,18 +71,26 @@ const SignUpPage = () => {
       username: user,
       password: pwd,
     }
-    console .log(signupData)
+
+    console.log(signupData)
     // let servers = await axiosInstance.get("/server/get_all_servers")
     // console.log(servers)
     // return
+
     try {
-      const response = await axiosInstance.post("/account/signup", JSON.stringify(signupData), {
-        headers: {'Content-Type': 'application/json'},
+      setAwaitingResponse(true)
+      const response = await axiosInstance.post("/account/signup", signupData, {
+        headers: { 'Content-Type': 'application/json' },
         withCredentials: true
       })
+      setAwaitingResponse(false)
       console.log(response)
+      const token = response.data[0].token
+      localStorage.setItem("QuietAuth",token)
+      navigate("/home")
     } catch (error) {
-      if(!error?.message){
+      setAwaitingResponse(false)
+      if (!error?.message) {
         setErrMsg("No server response")
       } else if (errMsg.response?.status === 409) {
         setErrMsg('Username Taken')
@@ -88,18 +100,18 @@ const SignUpPage = () => {
       errRef.current.focus();
     }
     return
-    try {
-      axios.post("/account/signup", signupData)
-    } catch (error) {
-      console.log(error, "failed try catch")
-    }
   }
 
   return (
     <div className="min-h-screen bg-bg_100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <Shield className="w-12 h-12 text-indigo-600" />
+          <Shield className="w-12 h-12 text-indigo-600" onClick={() => {
+            // navigate("/home")
+            setEmail("alfredvachila@gmail.com");
+            setUser("Valentine")
+            setPwd("@Plantains123")
+          }} />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-text_100">
           QuietVPN
@@ -111,7 +123,7 @@ const SignUpPage = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="py-8 px-4 sm:rounded-lg sm:px-10">
-          <div aria-live="assertive" ref={errRef} className={errMsg? `rounded-md mb-3 font-bold bg-white text-red-500 py-2 px-3 border-red-500 border` : ``}>
+          <div aria-live="assertive" ref={errRef} className={errMsg ? `rounded-md mb-3 font-bold bg-white text-red-500 py-2 px-3 border-red-500 border` : ``}>
             {errMsg}
           </div>
           <form className="space-y-6">
@@ -198,21 +210,26 @@ const SignUpPage = () => {
               <button
                 type="submit"
                 disabled={!validName || !validPwd || !validEmail ? true : false}
-              className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.preventDefault();
                   // navigate("/home");
                   submitForm();
                 }}
               >
-                Sign up
+                {
+                  awaitingResponse ?
+                    <LoadingSpinner />
+                    :
+                    "Sign up"
+                }
               </button>
             </div>
           </form>
 
           <div className='mt-10 flex flex-center '>
             <span className='text-text_200'>Already have an acocunt? </span>
-            <a href='' onClick={()=>navigate("/login")} className='text-indigo-600 underline'>Log In</a>
+            <a href='/login' onClick={(e) => { e.preventDefault(); navigate("/login") }} className='text-indigo-600 underline'>Log In</a>
           </div>
         </div>
       </div>
