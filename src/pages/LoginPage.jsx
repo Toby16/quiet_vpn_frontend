@@ -4,10 +4,13 @@ import { Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import { useRef } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 const LoginPage = () => {
   const errRef = useRef();
   const navigate = useNavigate();
+
+  const [awaitingResponse, setAwaitingResponse] = useState(false)
 
   const [pwd, setPwd] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +36,10 @@ const LoginPage = () => {
         withCredentials: true
       })
       console.log(response.data.token)
+      navigate("/home")
+      setAwaitingResponse(false)
     } catch (error) {
+      setAwaitingResponse(false)
       if(!error?.message){
         setErrMsg("No server response")
       } else if (errMsg.response?.status === 409) {
@@ -113,10 +119,16 @@ const LoginPage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   // navigate("/home");
+                  setAwaitingResponse(true)
                   submitForm();
                 }}
               >
-                Log In
+                {
+                  awaitingResponse ?
+                    <LoadingSpinner />
+                    :
+                    "Log In"
+                }
               </button>
             </div>
           </form>
