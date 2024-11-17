@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.cta-link {
+    @apply text-violet-600 cursor-pointer font-bold hover:text-indigo-400
+}

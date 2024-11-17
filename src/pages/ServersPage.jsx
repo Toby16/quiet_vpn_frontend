@@ -12,9 +12,9 @@ const ServersPage = () => (
 
           {/* Subscription Plans */}
           <PlanCard />
+          <PlanCard isSpecial={true}  />
           <PlanCard />
-          <PlanCard />
-          <PlanCard />
+          <PlanCard  isSpecial={true}/>
           <PlanCard />
   
           <PlanCard />
