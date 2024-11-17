@@ -96,10 +96,11 @@ const HomePage = () => {
             </p>
             {
               [
-                { Q: "How do I pay?", A: "gimme all your moneyy aaahahahahahaha" },
-                { Q: "Is there a maximum limit for number of days", A: "gimme all your moneyy aaahahahahahaha" },
-                { Q: "What devices can I use with the vpn", A: "gimme all your moneyy aaahahahahahaha" },
-                { Q: "Can I marry Bolaji Toby Bssit the Third", A: "Only if you pay $10,000 per days with him" },
+                { Q: "How do I pay?", A: "We are parnters with flutterwave, your transactions will be fast and secure" },
+                { Q: "Is there a maximum limit for number of days", A: "NO there is no limit" },
+                { Q: "What devices can I use with the vpn", A: "You can use the vpn service on all dvviced" },
+                { Q: "Can I marry Bolaji Toby Bssit", A: "Only if you pay $10,000 per days with him" },
+                { Q: "Can I marry Alfred Valentine?", A: "NO I'm married to Jesus" },
               ].map((item, index) => (
                 <QuestionCard
                   key={index}
