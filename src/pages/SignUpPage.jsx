@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axiosInstance from '../axios.jsx';
-import { Shield, Info } from 'lucide-react';
+import { Ghost, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import { useRef } from 'react';
@@ -106,7 +106,7 @@ const SignUpPage = () => {
     <div className="min-h-screen bg-bg_100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <Shield className="w-12 h-12 text-indigo-600" onClick={() => {
+          <Ghost className="w-12 h-12 text-indigo-600" onClick={() => {
             // navigate("/home")
             setEmail("alfredvachila@gmail.com");
             setUser("Valentine")
@@ -114,7 +114,7 @@ const SignUpPage = () => {
           }} />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-text_100">
-          QuietVPN
+          GhostRoute VPN
         </h2>
         <p className="mt-2 text-center text-sm text-text_200">
           Secure. Fast. Private.

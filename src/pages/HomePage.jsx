@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Clock, Shield, Zap } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 
 const HomePage = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken'); // Or check cookies
+    if (!token) {
+      navigate('/login'); // Redirect to the home page
+    }
+  }, []);
 
   const [openQuestionCardTitle, setopenQuestionCardTitle] = useState('')
 
@@ -57,7 +64,7 @@ const HomePage = () => {
                 Fast, Safe, Secure
               </p>
               <p className="text-xl md:text-2xl text-text_200">
-                Enjoy fast seure vpn connections to a variety of countries, pay for as much or as little time as you need, no subscriptions!
+                Enjoy fast secure vpn connections to a variety of countries, pay for as much or as little time as you need, no subscriptions!
               </p>
               <button onClick={() => navigate("/servers")} className="mt-2 w-full flex flex-center h-12 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                 Select a Server
@@ -71,7 +78,7 @@ const HomePage = () => {
             {
               [
                 { icon: <Clock className="size-full" />, title: "Flexible Duration", info: "Pick a plan for as many days as you need, 1 day or more!" },
-                { icon: <Zap className="size-full" />, title: "Fast and Secure", info: "Protect your data and enjoy high speed brwosing" },
+                { icon: <Zap className="size-full" />, title: "Fast and Secure", info: "Protect your data and enjoy high speed browsing" },
                 { icon: <Shield className="size-full" />, title: "Private, Quiet", info: "No logs, no tracking" }
               ].map((item, index) => (
                 <div className="size-full rounded-xl shadow border border-violet-600/30 flex text-center flex-center gap-1 flex-col text-violet-600 py-10 px-6" key={index}>
@@ -96,11 +103,11 @@ const HomePage = () => {
             </p>
             {
               [
-                { Q: "How do I pay?", A: "We are parnters with flutterwave, your transactions will be fast and secure" },
-                { Q: "Is there a maximum limit for number of days", A: "NO there is no limit" },
-                { Q: "What devices can I use with the vpn", A: "You can use the vpn service on all dvviced" },
-                { Q: "Can I marry Bolaji Toby Bssit", A: "Only if you pay $10,000 per days with him" },
-                { Q: "Can I marry Alfred Valentine?", A: "NO I'm married to Jesus" },
+                { Q: "How do I pay?", A: "As proud partners of Flutterwave, we ensure that your transactions are processed swiftly and securely. Flutterwave is a globally trusted payment platform, renowned for its robust security measures and seamless user experience. Whether you're using a credit card, debit card, or other supported payment methods, you can trust that your payment details are handled with the highest level of encryption and protection. This partnership allows us to offer you a smooth and reliable payment process, ensuring peace of mind while subscribing to our VPN services." },
+                { Q: "Is there a maximum limit for number of days", A: "There is no maximum limit to the number of days you can purchase for your VPN subscription. You are free to select as many days as you prefer, ensuring uninterrupted access to our secure and reliable VPN service for as long as you need." },
+                { Q: "What devices can I use with the vpn", A: "You can use our VPN service on any device that supports the WireGuard app. We provide you with the configuration files needed to set up the VPN, which can be imported into the WireGuard app. This app is available for a wide range of devices, including Windows, macOS, Linux, Android, and iOS. Simply download the WireGuard app on your preferred device, import the provided configuration, and enjoy secure and private browsing." },
+                // { Q: "Can I marry Bolaji Toby Bssit", A: "Only if you pay $10,000 per days with him" },
+                // { Q: "Can I marry Alfred Valentine?", A: "NO I'm married to Jesus" },
               ].map((item, index) => (
                 <QuestionCard
                   key={index}

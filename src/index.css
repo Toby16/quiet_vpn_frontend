@@ -6,3 +6,7 @@
 .cta-link {
     @apply text-violet-600 cursor-pointer font-bold hover:text-indigo-400
 }
+
+body {
+    @apply bg-bg_100
+}

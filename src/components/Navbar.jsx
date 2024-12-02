@@ -1,17 +1,22 @@
-import { Menu, Shield, X } from "lucide-react"
+import { Ghost, Menu, X } from "lucide-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "./AuthProvider";
 
 const navlinks = [
-  { name: "Home", link: "/home" },
+  { name: "Home", link: "/" },
   { name: "Select a Server", link: "/servers" },
   { name: "My Plans", link: "/purchases" },
   { name: "How to use", link: "/tutorials" },
 ]
 
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
+  const { handleLogout } = useAuth();
+
   return (
     <nav className="opacity-95 bg-bg_100 shadow fixed z-50 w-full top-0">
                     <div onClick={()=>setMenuOpen(false)} className={`${menuOpen?"fixed inset-0 bg-black/50":"hidden"}`} />
@@ -20,8 +25,8 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
 
           <div className="flex items-center">
-            <Shield className="w-8 h-8 text-indigo-600" />
-            <span className="ml-2 text-xl font-bold text-text_100">QuietVPN</span>
+            <Ghost className="w-8 h-8 text-indigo-600" />
+            <span className="ml-2 text-xl font-bold text-text_100">GhostRoute</span>
           </div>
 
           {/* right side of ave bar */}
@@ -46,7 +51,7 @@ const Navbar = () => {
 
               <button
                 onClick={() => {
-                  navigate("/signup")
+                  handleLogout()
                 }}
                 className="ml-4 px-4 py-2 text-md text-text_200 hover:text-red-400">
                 Logout
@@ -82,7 +87,7 @@ const Navbar = () => {
                     }
                     <button
                       onClick={() => {
-                        navigate("/signup")
+                        handleLogout()
                       }}
                       className="ml-4 px-4 py-2 text-sm text-text_200 hover:text-red-600">
                       Logout

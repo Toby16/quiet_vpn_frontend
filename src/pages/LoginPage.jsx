@@ -1,14 +1,23 @@
 /* eslint-disable no-unused-vars */
 import axiosInstance from '../axios.jsx';
-import { Shield } from 'lucide-react';
+import { Ghost } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import { useRef } from 'react';
+import { useAuth } from '../components/AuthProvider.jsx';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 const LoginPage = () => {
   const errRef = useRef();
+  const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // const token = localStorage.getItem('accessToken'); // Or check cookies
+    // if (token) {
+    //   navigate('/'); // Redirect to the home page
+    // }
+  }, []);
 
   const [awaitingResponse, setAwaitingResponse] = useState(false)
 
@@ -29,18 +38,22 @@ const LoginPage = () => {
       email: email,
       password: pwd,
     }
-    console .log(loginData)
+    console.log(loginData)
     try {
-      const response = await axiosInstance.post("/account/login", JSON.stringify(loginData), {
-        headers: {'Content-Type': 'application/json'},
-        withCredentials: true
-      })
-      console.log(response.data.token)
-      navigate("/home")
+      await login(loginData, "/")
+      // const response = await axiosInstance.post("/account/login", JSON.stringify(loginData), {
+      //   // headers: {'Content-Type': 'application/json'},
+      //   // withCredentials: true
+      // })
+      // // console.log(response.data.token)
+      // localStorage.setItem('accessToken', response.data.token);
+
+      // navigate("/home")
       setAwaitingResponse(false)
     } catch (error) {
       setAwaitingResponse(false)
-      if(!error?.message){
+
+      if (!error?.message) {
         setErrMsg("No server response")
       } else if (errMsg.response?.status === 409) {
         // setErrMsg('This user does not exsit')
@@ -56,11 +69,17 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-bg_100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <Shield className="w-12 h-12 text-indigo-600" />
+        <div className="flex justify-center"
+        onClick={()=>{
+          setEmail("alfredvachila@gmail.com")
+      setPwd("@Plantain123")
+          submitForm()
+        }}
+        >
+          <Ghost className="w-12 h-12 text-indigo-600" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-text_100">
-          QuietVPN
+          GhostRoute VPN
         </h2>
         <p className="mt-2 text-center text-sm text-text_200">
           Secure. Fast. Private.
@@ -69,7 +88,7 @@ const LoginPage = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="py-8 px-4 sm:rounded-lg sm:px-10">
-          <div aria-live="assertive" ref={errRef} className={errMsg? `rounded-md mb-3 font-bold bg-white text-red-500 py-2 px-3 border-red-500 border` : ``}>
+          <div aria-live="assertive" ref={errRef} className={errMsg ? `rounded-md mb-3 font-bold bg-white text-red-500 py-2 px-3 border-red-500 border` : ``}>
             {errMsg}
           </div>
           <form className="space-y-6">
@@ -92,7 +111,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-          
+
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-text_200">
                 Password
@@ -115,7 +134,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={!pwd || !email ? true : false}
-              className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.preventDefault();
                   // navigate("/home");
@@ -135,7 +154,7 @@ const LoginPage = () => {
 
           <div className='mt-10 flex flex-center '>
             <span className='text-text_200'>{"Don't have an acocunt?"} </span>
-            <a href='/signup' onClick={(e)=>{e.preventDefault(); navigate("/signup")}} className='text-indigo-600 underline'>Sign Up</a>
+            <a href='/signup' onClick={(e) => { e.preventDefault(); navigate("/signup") }} className='text-indigo-600 underline'>Sign Up</a>
           </div>
         </div>
       </div>

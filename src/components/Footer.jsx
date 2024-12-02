@@ -2,7 +2,7 @@ const Footer = () => {
 
     return (
         <footer>
-            <div className="container mx-auto px-4 text-text_100">
+            <div className="container mx-auto py-6 px-4 text-text_100">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     {/* Logo and Name */}
                     <div className="mb-4 md:mb-0">
@@ -71,9 +71,9 @@ const Footer = () => {
                 </div>
 
                 {/* Copyright */}
-                <div className="text-center mt-4 text-sm">
+                {/* <div className="text-center mt-4 text-sm">
                     <p>© {new Date().getFullYear()} Quiet VPN. All rights reserved.</p>
-                </div>
+                </div> */}
             </div>
         </footer>
     )
