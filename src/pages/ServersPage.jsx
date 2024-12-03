@@ -58,7 +58,7 @@ const ServersPage = () => {
       const checkout_request = await axiosInstance.post("/payment/flutterwave/", payload)
       const user_profile = await axiosInstance.get("/account/user_profile/")
       const username = user_profile.data.data.username
-      let plan = await structuredClone(selectedPlan)
+      let plan = structuredClone(selectedPlan)
       plan.username = username
       localStorage.setItem("selectedPlan", JSON.stringify(plan))
       setRedirecting(true)
@@ -98,7 +98,7 @@ const ServersPage = () => {
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden">
-          <p className="text-text_100 text-3xl py-6 font-bold">Select a Server</p>
+          <p className="text-text_100 text-3xl px-6 sm:px-0 py-6 font-bold">Select a Server</p>
 
           {/* Sliding container */}
           <div
@@ -112,7 +112,7 @@ const ServersPage = () => {
           >
 
             {/* Server list */}
-            <div className="w-1/2 p-4 md:p-0">
+            <div className="w-1/2 px-6 sm:px-0">
               <div className="grid gap-6 mb-8 sm:grid-cols-3">
                 {servers.length > 0 ? (
                   servers.map((server) => (

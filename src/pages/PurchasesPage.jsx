@@ -36,11 +36,11 @@ const PurchasesPage = () => {
             {/* navbar */}
             <Navbar currentPage={"/purchases"}/>
             <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <div className="px-4 py-6 sm:px-0 space-y-10">
+                <div className="px-6 py-6 sm:px-0 space-y-10">
 
                     {/* current plans section */}
                     <section>
-                        <p className="text-text_100 text-3xl f`ont-bold">Current Plans</p>
+                        <p className="text-text_100 text-3xl font-bold">Current Plans</p>
                         <div className={`${currentPlans?.length != 0?"grid":""} mt-6 gap-4 md:grid-cols-3`}>
                             {
                                 currentPlans ?
