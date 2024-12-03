@@ -16,10 +16,11 @@ const InternetCheck = () => {
         setUserOnline(true)
         setTimeout(() => {
             setVisible(false)
-        }, 1000);
+        }, 3000);
     })
     window.addEventListener("offline", () => {
         setUserOnline(false)
+        setVisible(true)
     })
     return (
         <section className={`${!visible ? "hidden" : ""} bg-black flex flex-col flex-center absolute top-0 left-0 w-screen h-screen z-[1000] select-none animate-pulse`}>
