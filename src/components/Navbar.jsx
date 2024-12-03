@@ -26,7 +26,7 @@ const Navbar = ({currentPage}) => {
 
           <div className="flex items-center">
             <Ghost className="w-8 h-8 text-indigo-600" />
-            <span className="ml-2 text-xl font-bold text-text_100">GhostRoute</span>
+            <span className="ml-2 text-xl font-bold text-text_100">GhostRoute VPN</span>
           </div>
 
           {/* right side of ave bar */}
