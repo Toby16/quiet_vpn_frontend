@@ -6,7 +6,7 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     {/* Logo and Name */}
                     <div className="mb-4 md:mb-0">
-                        <h1 className="text-2xl font-bold text-violet-600">Quiet VPN</h1>
+                        <h1 className="text-2xl font-bold text-violet-600">GhostRoute VPN</h1>
                     </div>
 
                     {/* Navigation Links */}

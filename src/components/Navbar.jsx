@@ -12,7 +12,7 @@ const navlinks = [
 
 
 
-const Navbar = () => {
+const Navbar = ({currentPage}) => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
   const { handleLogout } = useAuth();
@@ -41,7 +41,7 @@ const Navbar = () => {
                     <button
                       onClick={() => navigate(link.link)}
                       key={index}
-                      className="ml-4 px-4 py-2 text-md text-text_200 hover:text-indigo-600 "
+                      className={`ml-4 px-4 py-2 text-md ${currentPage == link.link?"text-indigo-600":"text-text_200"} hover:text-indigo-600`}
                     >
                       {link.name}
                     </button>

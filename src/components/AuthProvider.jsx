@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import axios from '../axios.jsx'; // Your existing axios instance
+import axiosInstance from '../axios.jsx'; // Your existing axiosInstance instance
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Refresh token function
   const refreshAccessToken = async () => {
     try {
-      const response = await axios.post('/auth/refresh', {}, { withCredentials: true });
+      const response = await axiosInstance.post('/auth/refresh', {}, { withCredentials: true });
       setAccessToken(response.data.accessToken);
       return response.data.accessToken;
     } catch (error) {
@@ -22,10 +23,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Signup function 
+  const signup = async (credentials, redirectPageOnSucces = "/") => {
+    try {
+      const response = await axios.post('https://quiet.pumpeet.me/account/signup', credentials, { withCredentials: true });
+      console.log(response)
+      const token = response.data[0].token
+      setAccessToken(token)
+      setIsAuthenticated(true)
+      navigate(redirectPageOnSucces)
+    } catch (error) {
+      console.error(error)
+      throw error; // very handy
+    }
+  }
+
   // Login function
   const login = async (credentials, redirectPageOnSucces = "/") => {
     try {
-      const response = await axios.post('/account/login', credentials, { withCredentials: true });
+      const response = await axiosInstance.post('/account/login', credentials, { withCredentials: true });
       setAccessToken(response.data.token);
       setIsAuthenticated(true);
       navigate(redirectPageOnSucces); // Redirect on successful login
@@ -44,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   // Attach interceptor for token handling
   useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
+    const requestInterceptor = axiosInstance.interceptors.request.use(
       async (config) => {
         if (accessToken) {
           config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -54,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       (error) => Promise.reject(error)
     );
 
-    const responseInterceptor = axios.interceptors.response.use(
+    const responseInterceptor = axiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
         if (error.response?.status === 401 && !error.config._retry) {
@@ -62,7 +78,7 @@ export const AuthProvider = ({ children }) => {
           const newToken = await refreshAccessToken();
           if (newToken) {
             error.config.headers['Authorization'] = `Bearer ${newToken}`;
-            return axios(error.config);
+            return axiosInstance(error.config);
           }
         }
         return Promise.reject(error);
@@ -71,13 +87,13 @@ export const AuthProvider = ({ children }) => {
 
     // Cleanup interceptors on unmount
     return () => {
-      axios.interceptors.request.eject(requestInterceptor);
-      axios.interceptors.response.eject(responseInterceptor);
+      axiosInstance.interceptors.request.eject(requestInterceptor);
+      axiosInstance.interceptors.response.eject(responseInterceptor);
     };
   }, [accessToken]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, handleLogout, accessToken }}>
+    <AuthContext.Provider value={{ isAuthenticated, signup, login, handleLogout, accessToken }}>
       {children}
     </AuthContext.Provider>
   );

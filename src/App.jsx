@@ -9,6 +9,7 @@ import PurchasesPage from './pages/PurchasesPage'
 import { AuthProvider } from './components/AuthProvider'
 import ProtectedRoute from './hooks/ProtectedRoute'
 import VerifyPaymentPage from './pages/VerifyPayment'
+import InternetCheck from './components/InternetCheck'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+          <InternetCheck />
 
           <Routes>
             <Route path="/" element={

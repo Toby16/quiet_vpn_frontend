@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
-import axiosInstance from '../axios.jsx';
+import axios from 'axios';
 import { Ghost, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import { useRef } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
+import { useAuth } from '../components/AuthProvider.jsx';
+import axiosInstance from '../axios.jsx';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -14,6 +16,7 @@ const SignUpPage = () => {
   const aRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+  const { signup } = useAuth()
 
   const [awaitingResponse, setAwaitingResponse] = useState(false)
 
@@ -73,27 +76,17 @@ const SignUpPage = () => {
     }
 
     console.log(signupData)
-    // let servers = await axiosInstance.get("/server/get_all_servers")
-    // console.log(servers)
-    // return
 
     try {
       setAwaitingResponse(true)
-      const response = await axiosInstance.post("/account/signup", signupData, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-      })
+      await signup(signupData, "/")
       setAwaitingResponse(false)
-      console.log(response)
-      const token = response.data[0].token
-      localStorage.setItem("QuietAuth",token)
-      navigate("/home")
     } catch (error) {
       setAwaitingResponse(false)
       if (!error?.message) {
         setErrMsg("No server response")
-      } else if (errMsg.response?.status === 409) {
-        setErrMsg('Username Taken')
+      } else if (error.response?.status === 400) {
+        setErrMsg('Account already exists')
       } else {
         setErrMsg("Registration Failed")
       }
@@ -213,7 +206,6 @@ const SignUpPage = () => {
                 className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.preventDefault();
-                  // navigate("/home");
                   submitForm();
                 }}
               >

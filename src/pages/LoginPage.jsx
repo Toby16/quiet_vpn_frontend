@@ -9,14 +9,13 @@ import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 const LoginPage = () => {
   const errRef = useRef();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const token = localStorage.getItem('accessToken'); // Or check cookies
-    // if (token) {
-    //   navigate('/'); // Redirect to the home page
-    // }
+    if(isAuthenticated){
+      navigate("/")
+    }
   }, []);
 
   const [awaitingResponse, setAwaitingResponse] = useState(false)
@@ -38,25 +37,18 @@ const LoginPage = () => {
       email: email,
       password: pwd,
     }
-    console.log(loginData)
+    // console.log(loginData)
     try {
       await login(loginData, "/")
-      // const response = await axiosInstance.post("/account/login", JSON.stringify(loginData), {
-      //   // headers: {'Content-Type': 'application/json'},
-      //   // withCredentials: true
-      // })
-      // // console.log(response.data.token)
-      // localStorage.setItem('accessToken', response.data.token);
-
-      // navigate("/home")
       setAwaitingResponse(false)
     } catch (error) {
       setAwaitingResponse(false)
 
       if (!error?.message) {
         setErrMsg("No server response")
+      } else if(!error?.status){
+        setErrMsg(error.message)
       } else if (errMsg.response?.status === 409) {
-        // setErrMsg('This user does not exsit')
         setErrMsg("Incorrect Username or Password")
       } else {
         setErrMsg("Incorrect Username or Password")
@@ -70,11 +62,13 @@ const LoginPage = () => {
     <div className="min-h-screen bg-bg_100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center"
-        onClick={()=>{
-          setEmail("alfredvachila@gmail.com")
-      setPwd("@Plantain123")
-          submitForm()
-        }}
+          onClick={() => {
+            setTimeout(() => {
+            setEmail("alfredvachila@gmail.com")
+            setPwd("@Plantain123")
+              submitForm()
+            }, 1000)
+          }}
         >
           <Ghost className="w-12 h-12 text-indigo-600" />
         </div>
@@ -133,7 +127,7 @@ const LoginPage = () => {
             <div>
               <button
                 type="submit"
-                disabled={!pwd || !email ? true : false}
+                disabled={!pwd || (!email ? true : false) || awaitingResponse} 
                 className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.preventDefault();
