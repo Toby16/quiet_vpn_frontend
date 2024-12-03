@@ -78,7 +78,7 @@ const Navbar = ({currentPage}) => {
                           <button
                             onClick={() => { navigate(link.link); setMenuOpen(false); }}
                             key={index}
-                            className="ml-4 px-4 py-2 text-sm text-text_200 hover:text-indigo-600"
+                            className={`ml-4 px-4 py-2 text-sm ${currentPage == link.link?"text-indigo-600":"text-text_200"} hover:text-indigo-600`}
                           >
                             {link.name}
                           </button>
