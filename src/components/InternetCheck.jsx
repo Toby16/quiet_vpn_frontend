@@ -16,7 +16,7 @@ const InternetCheck = () => {
         setUserOnline(true)
         setTimeout(() => {
             setVisible(false)
-        }, 3000);
+        }, 2000);
     })
     window.addEventListener("offline", () => {
         setUserOnline(false)

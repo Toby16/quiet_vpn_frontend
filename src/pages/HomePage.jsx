@@ -3,13 +3,14 @@ import Navbar from "../components/Navbar";
 import { Clock, Shield, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
+import { useAuth } from "../components/AuthProvider";
 
 const HomePage = () => {
   const navigate = useNavigate()
+  const {isAuthenticated} = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken'); // Or check cookies
-    if (!token) {
+    if (!isAuthenticated) {
       navigate('/login'); // Redirect to the home page
     }
   }, []);
