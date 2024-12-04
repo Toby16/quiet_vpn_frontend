@@ -48,7 +48,7 @@ const ServersPage = () => {
 
   const checkout = async () => {
     setProcessingTransaction(true)
-    let redirect_url = "http://localhost:5173/verifypayment"
+    let redirect_url = window.location.href.split('/')[0]+"verifypayment"
     const payload = {
       "days_paid": amountOfDays,
       "server_ip": selectedPlan.server_ip,
