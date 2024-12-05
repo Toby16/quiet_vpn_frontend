@@ -16,12 +16,11 @@ const PlanCard = ({ plan }) => {
 
   const updateNameAndFlag = async () => {
     let country = choose(countries)
-    setFlag(country.flags.png)
-    setArea(country.name.common)
+    setFlag(plan?.flag_url ? plan.flag_url : "")
   }
 
   const copyConigData = () => {
-    navigator.clipboard.writeText(plan.config)
+    navigator.clipboard.writeText(JSON.stringify(plan.config_data))
       .then(() => {
         console.log("Text copied to clipboard!");
       })

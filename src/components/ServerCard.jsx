@@ -8,13 +8,11 @@ import { choose, randomNumber } from "../utils/utils"
 import countries from "../data/countries.json"
 
 const ServerCard = ({isSpecial, server, callback}) => {
-  const [area, setArea] = useState()
   const [flag, setFlag] = useState();
 
   const updateNameAndFlag = async ()=> {
     let country = choose(countries)
-    setFlag(country.flags.png)
-    setArea(country.name.common)
+    setFlag(server?.flag_url ? server.flag_url : "")
   }
   useEffect( ()=>{
     updateNameAndFlag();
