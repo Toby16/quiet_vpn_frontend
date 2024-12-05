@@ -20,7 +20,7 @@ const PlanCard = ({ plan }) => {
   }
 
   const copyConigData = () => {
-    navigator.clipboard.writeText(JSON.stringify(plan.config_data))
+    navigator.clipboard.writeText('plan comfig')
       .then(() => {
         console.log("Text copied to clipboard!");
       })
