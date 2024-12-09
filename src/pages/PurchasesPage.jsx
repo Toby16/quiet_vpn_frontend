@@ -56,7 +56,8 @@ const PurchasesPage = () => {
                                             :
                                             currentPlans.map((item, index) => {
                                                 return (
-                                                    <div key={index}>
+                                                    <div className=""
+                                                    key={index}>
                                                         <PlanCard plan={item} />
                                                     </div>
                                                 )

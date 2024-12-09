@@ -1,3 +1,5 @@
+import { Instagram, Twitter } from "lucide-react"
+
 const Footer = () => {
 
     return (
@@ -14,10 +16,10 @@ const Footer = () => {
                         <a href="/about" className="hover:text-violet-600 transition-colors">
                             About Us
                         </a>
-                        <a href="/plans" className="hover:text-violet-600 transition-colors">
+                        <a href="/servers" className="hover:text-violet-600 transition-colors">
                             Plans
                         </a>
-                        <a href="/faq" className="hover:text-violet-600 transition-colors">
+                        <a href="#faq" className="hover:text-violet-600 transition-colors">
                             FAQ
                         </a>
                         <a href="/contact" className="hover:text-violet-600 transition-colors">
@@ -32,40 +34,14 @@ const Footer = () => {
                             className="text-violet-600 hover:text-violet-400 transition-colors"
                             aria-label="Twitter"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8 19h12M3 12h18M4 5h16"
-                                />
-                            </svg>
+                            <Instagram />
                         </a>
                         <a
                             href="#"
                             className="text-violet-600 hover:text-violet-400 transition-colors"
                             aria-label="Facebook"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8 19h12M3 12h18M4 5h16"
-                                />
-                            </svg>
+                            <Twitter />
                         </a>
                     </div>
                 </div>

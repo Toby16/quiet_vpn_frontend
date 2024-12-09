@@ -49,6 +49,7 @@ const ServersPage = () => {
   const checkout = async () => {
     setProcessingTransaction(true)
     let redirect_url = "https://security.ghostroute.io/"+"/verifypayment"
+    // redirect_url = "http://localhost:5173/verifypayment"
     const payload = {
       "days_paid": amountOfDays,
       "server_ip": selectedPlan.server_ip,

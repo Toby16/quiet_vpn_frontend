@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { Clock, Shield, Zap } from "lucide-react";
+import { ChevronDown, Clock, Shield, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useAuth } from "../components/AuthProvider";
@@ -34,16 +34,14 @@ const HomePage = () => {
           <span className={`text-base md:text-xl font-semibold ${open ? 'text-violet-600' : 'text-gray-200'}`}>
             {question}
           </span>
-          <div className='px-3'>
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 flex transform ${open ? "rotate-[180deg]" : "rotate-[0deg]"} transition-transform duration-300`}>
-              <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill={`${open ? "#0B99FA" : "white"}`} fillRule="evenodd" clipRule="evenodd"></path>
-            </svg>
+          <div className='px-3 text-text_200'>
+            <ChevronDown className={`${open ? "rotate-[180deg] text-violet-600" : "rotate-[0deg]"}`} />
           </div>
         </div>
 
         {/* Quiestion anser */}
         <div className={`${open ? "h-auto" : "h-0"} ${ open ? "border-b border-violet-600/20" : ""} transition-all duration-300 overflow-hidden`}>
-          <p className='text-sm md:text-base text-gray-200/60 mb-4 mt-5 mx-6 leading-relaxed'>
+          <p className='text-sm md:text-base text-gray-200 mb-4 mx-3 leading-relaxed'>
             {answer}
           </p>
         </div>
@@ -98,17 +96,21 @@ const HomePage = () => {
           </section>
 
           {/* FAQ section */}
-          <section className="py-8 my-20  bg-violet-600/20 border border-violet-600/30 rounded-xl px-6">
+          <section id="faq" className="py-8 my-20  bg-violet-600/20 border border-violet-600/30 rounded-xl px-6">
             <p className="text-text_100 font-bold text-3xl mb-6">
               Frequently Asked Questions
             </p>
             {
               [
-                { Q: "How do I pay?", A: "As proud partners of Flutterwave, we ensure that your transactions are processed swiftly and securely. Flutterwave is a globally trusted payment platform, renowned for its robust security measures and seamless user experience. Whether you're using a credit card, debit card, or other supported payment methods, you can trust that your payment details are handled with the highest level of encryption and protection. This partnership allows us to offer you a smooth and reliable payment process, ensuring peace of mind while subscribing to our VPN services." },
-                { Q: "Is there a maximum limit for number of days", A: "There is no maximum limit to the number of days you can purchase for your VPN subscription. You are free to select as many days as you prefer, ensuring uninterrupted access to our secure and reliable VPN service for as long as you need." },
-                { Q: "What devices can I use with the vpn", A: "You can use our VPN service on any device that supports the WireGuard app. We provide you with the configuration files needed to set up the VPN, which can be imported into the WireGuard app. This app is available for a wide range of devices, including Windows, macOS, Linux, Android, and iOS. Simply download the WireGuard app on your preferred device, import the provided configuration, and enjoy secure and private browsing." },
-                // { Q: "Can I marry Bolaji Toby Bssit", A: "Only if you pay $10,000 per days with him" },
-                // { Q: "Can I marry Alfred Valentine?", A: "NO I'm married to Jesus" },
+                { Q: "How do I pay?", A: "Pay easily and securely with Flutterwave, a trusted global payment platform. Enjoy swift, encrypted transactions with credit cards, debit cards, or other methods for a seamless experience." },
+                { Q: "Is there a maximum limit for the number of days?", A: "No limits! Choose as many days as you want to ensure uninterrupted access to our reliable VPN service." },
+                { Q: "What devices can I use with the VPN?", A: "Our VPN works on any device with the WireGuard app, including Windows, macOS, Linux, Android, and iOS. Just import our configuration file and start browsing securely." },
+                { Q: "Will my data be safe?", A: "Absolutely! We prioritize your privacy with military-grade encryption and a strict no-logs policy, ensuring your online activities remain secure and private." },
+                { Q: "Can I use the VPN on multiple devices?", A: "Yes, you can! Set up our VPN on all your devices as long as they support the WireGuard app. Enjoy seamless protection everywhere." },
+                { Q: "Does the VPN affect my internet speed?", A: "Our VPN is optimized for high-speed connections, ensuring minimal impact on your browsing, streaming, and gaming experience." },
+                { Q: "How quickly can I get started?", A: "Instantly! Sign up, complete your payment, and receive your configuration files to start browsing securely within minutes." },
+                { Q: "Is this a subscription service?",  A: "No, we’re not a subscription service! With us, you only pay for the exact number of days you need—whether it’s a single day or several months. Enjoy total flexibility and control without recurring charges." }
+                
               ].map((item, index) => (
                 <QuestionCard
                   key={index}
