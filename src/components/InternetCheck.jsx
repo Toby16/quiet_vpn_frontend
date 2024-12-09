@@ -23,7 +23,7 @@ const InternetCheck = () => {
         setVisible(true)
     })
     return (
-        <section className={`${!visible ? "hidden" : "max-w-32p"} bg-black flex flex-col flex-center absolute top-0 left-0 px-2 w-screen h-screen z-[1000] select-none animate-pulse`}>
+        <section className={`${!visible ? "hidden" : ""} bg-black flex flex-col flex-center absolute top-0 left-0 px-2 w-screen h-screen z-[1000] select-none animate-pulse`}>
             <div className="flex flex-center py-4">
                 <Ghost className="w-14 h-14 text-indigo-600" />
                 <span className="ml-2 text-3xl font-bold text-text_100 mr-4">GhostRoute VPN</span>
