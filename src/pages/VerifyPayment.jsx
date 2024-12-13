@@ -17,8 +17,9 @@ const VerifyPaymentPage = () => {
         try {
             const url = String(window.location.href)
             // console.log(url)
-            const transaction_id = url.split('transaction_id')[1].substring(1)
-            const plan = JSON.parse(localStorage.getItem("selectedPlan"))
+            const transaction_id = url.split('trxref')[1].substring(1).split('=')[1]
+            console.log(transaction_id)
+            const plan = JSON.parse(sessionStorage.getItem("selectedPlan"))
             const payload = {
                 "username": plan.username,
                 "transaction_id": transaction_id,
@@ -26,13 +27,15 @@ const VerifyPaymentPage = () => {
                 "server_ip": plan.server_ip,
                 "server_location": plan.location
             }
+            // console.log(payload)
+            // return
             // console.log(payload, "initial payload")
-            await axios.post("https://quiet.pumpeet.me/payment/verify_flutterwave/", payload)
+            await axios.post("https://quiet.pumpeet.me/payment/paystack/verify/", payload)
             setVerified(true)
             setInfoText("Enjoy your purchase you wonderful Internet user you! <3")
             setSubInfoText("You can close this tab now!")
             
-            localStorage.removeItem("selectedPlan")
+            sessionStorage.removeItem("selectedPlan")
             setTimeout(()=>{
                 // navigate("/login")
             }, 2000)
@@ -41,9 +44,10 @@ const VerifyPaymentPage = () => {
         } catch (e) {
             setInfoText("There seems to have been an issue :(")
             setSubInfoText("")
+            console.error(e)
             setVerified(false)
             setTimeout(()=>{
-                navigate("/login")
+                // navigate("/login")
             }, 2000)
             e
             // console.log(e)

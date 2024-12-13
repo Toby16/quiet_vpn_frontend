@@ -220,7 +220,7 @@ const SignUpPage = () => {
           </form>
 
           <div className='mt-10 flex flex-center '>
-            <span className='text-text_200'>Already have an acocunt? </span>
+            <span className='text-text_200'>Already have an account? </span>
             <a href='/login' onClick={(e) => { e.preventDefault(); navigate("/login") }} className='text-indigo-600 underline'>Log In</a>
           </div>
         </div>

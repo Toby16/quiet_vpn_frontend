@@ -13,7 +13,7 @@ const ServersPage = () => {
   const [processingTransaction, setProcessingTransaction] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
   const [manualRedirect, setManualRedirect] = useState(false)
-  const [flutterwavePaymentURL, setFlutterwavePaymentURL] = useState('')
+  const [flutterwavePaymentURL, setPaymentURL] = useState('')
 
   const [touchStartX, setTouchStartX] = useState(0); // To track swipe start
   const [touchEndX, setTouchEndX] = useState(0); // To track swipe end
@@ -48,31 +48,37 @@ const ServersPage = () => {
 
   const checkout = async () => {
     setProcessingTransaction(true)
-    let redirect_url = "https://security.ghostroute.io/"+"/verifypayment"
+    let redirect_url = "https://security.ghostroute.io/" + "/verifypayment"
     // redirect_url = "http://localhost:5173/verifypayment"
-    const payload = {
-      "days_paid": amountOfDays,
-      "server_ip": selectedPlan.server_ip,
-      "redirect_url": redirect_url
-    }
     try {
-      const checkout_request = await axiosInstance.post("/payment/flutterwave/", payload)
-      const user_profile = await axiosInstance.get("/account/user_profile/")
-      const username = user_profile.data.data.username
+      const payload = {
+        "days_paid": amountOfDays,
+        "server_ip": selectedPlan.server_ip,
+        "redirect_url": redirect_url
+      }
+      // console.log(payload)
+      // return
+      const checkout_request = await axiosInstance.post("/payment/paystack/", payload)
+      // return
+      console.log(checkout_request)
+      const username = checkout_request.data.user
+
       let plan = structuredClone(selectedPlan)
       plan.username = username
-      localStorage.setItem("selectedPlan", JSON.stringify(plan))
+      // plan.reference = checkout_request.data.response.reference
+
+      sessionStorage.setItem("selectedPlan", JSON.stringify(plan))
       setRedirecting(true)
       setTimeout(() => {
         setManualRedirect(true)
       }, 2000)
       // let currentURL = window.location.href
       // console.log(user_profile)
-      setFlutterwavePaymentURL(checkout_request.data.data.link)
-      window.open(checkout_request.data.data.link, "_blank")
+      setPaymentURL(checkout_request.data.response.authorization_url)
+      window.open(checkout_request.data.response.authorization_url, "_blank")
     } catch (error) {
-      // console.log(error)
-      error
+      console.error(error)
+      // error
     }
     setProcessingTransaction(false)
   }
@@ -114,7 +120,7 @@ const ServersPage = () => {
 
             {/* Server list */}
             <div className="w-1/2 px-6 sm:px-0">
-              <div className="grid gap-6 mb-8 sm:grid-cols-3">
+              <div className="grid gap-6 mb-8 sm:grid-cols-2 xl:grid-co ">
                 {servers.length > 0 ? (
                   servers.map((server) => (
                     <ServerCard
