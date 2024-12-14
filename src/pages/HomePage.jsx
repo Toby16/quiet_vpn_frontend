@@ -102,7 +102,7 @@ const HomePage = () => {
             </p>
             {
               [
-                { Q: "How do I pay?", A: "Pay easily and securely with Flutterwave, a trusted global payment platform. Enjoy swift, encrypted transactions with credit cards, debit cards, or other methods for a seamless experience." },
+                { Q: "How do I pay?", A: "Pay easily and securely with paystack, a trusted global payment platform providing swift, encrypted transactions. You can use a credit cards, debit cards, or other methods paystack provides" },
                 { Q: "Is there a maximum limit for the number of days?", A: "No limits! Choose as many days as you want to ensure uninterrupted access to our reliable VPN service." },
                 { Q: "What devices can I use with the VPN?", A: "Our VPN works on any device with the WireGuard app, including Windows, macOS, Linux, Android, and iOS. Just import our configuration file and start browsing securely." },
                 { Q: "Will my data be safe?", A: "Absolutely! We prioritize your privacy with military-grade encryption and a strict no-logs policy, ensuring your online activities remain secure and private." },

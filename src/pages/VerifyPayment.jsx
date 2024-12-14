@@ -19,13 +19,12 @@ const VerifyPaymentPage = () => {
             // console.log(url)
             const transaction_id = url.split('trxref')[1].substring(1).split('=')[1]
             console.log(transaction_id)
+            const trans_id = sessionStorage.getItem("gvtd")
+            console.log(trans_id)
             const plan = JSON.parse(sessionStorage.getItem("selectedPlan"))
             const payload = {
-                "username": plan.username,
                 "transaction_id": transaction_id,
-                "days_paid": plan.price,
-                "server_ip": plan.server_ip,
-                "server_location": plan.location
+                "trans_id": trans_id
             }
             // console.log(payload)
             // return

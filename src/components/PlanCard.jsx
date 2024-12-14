@@ -116,7 +116,7 @@ const PlanCard = ({ plan }) => {
         <h3 className="text-lg font-medium text-text_100">{plan.location}</h3>
       </div>
 
-      <TitleAndSubtitle title={"Config"} subtitle={plan.config} />
+      <TitleAndSubtitle title={"Config name"} subtitle={plan.config} />
       <TitleAndSubtitle title={"Days Left"} subtitle={plan.days_left} />
       <TitleAndSubtitle title={"Server IP Address"} subtitle={plan.ip_address} />
       <TitleAndSubtitle title={(

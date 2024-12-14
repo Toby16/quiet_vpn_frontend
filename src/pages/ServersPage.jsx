@@ -13,7 +13,7 @@ const ServersPage = () => {
   const [processingTransaction, setProcessingTransaction] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
   const [manualRedirect, setManualRedirect] = useState(false)
-  const [flutterwavePaymentURL, setPaymentURL] = useState('')
+  const [PaymentURL, setPaymentURL] = useState('')
 
   const [touchStartX, setTouchStartX] = useState(0); // To track swipe start
   const [touchEndX, setTouchEndX] = useState(0); // To track swipe end
@@ -49,7 +49,7 @@ const ServersPage = () => {
   const checkout = async () => {
     setProcessingTransaction(true)
     let redirect_url = "https://security.ghostroute.io/" + "/verifypayment"
-    // redirect_url = "http://localhost:5173/verifypayment"
+    redirect_url = "http://localhost:5173/verifypayment" 
     try {
       const payload = {
         "days_paid": amountOfDays,
@@ -59,15 +59,10 @@ const ServersPage = () => {
       // console.log(payload)
       // return
       const checkout_request = await axiosInstance.post("/payment/paystack/", payload)
-      // return
       console.log(checkout_request)
-      const username = checkout_request.data.user
+      sessionStorage.setItem("gvtd", checkout_request.data.trans_id)
+      // return
 
-      let plan = structuredClone(selectedPlan)
-      plan.username = username
-      // plan.reference = checkout_request.data.response.reference
-
-      sessionStorage.setItem("selectedPlan", JSON.stringify(plan))
       setRedirecting(true)
       setTimeout(() => {
         setManualRedirect(true)
@@ -76,6 +71,7 @@ const ServersPage = () => {
       // console.log(user_profile)
       setPaymentURL(checkout_request.data.response.authorization_url)
       window.open(checkout_request.data.response.authorization_url, "_blank")
+      setRedirecting(false)
     } catch (error) {
       console.error(error)
       // error
@@ -195,7 +191,7 @@ const ServersPage = () => {
                     </>
                   } />
 
-                  <p className="text-text_200 text-md font-bold mb-1 mt-6">Proceed to flutterwave </p>
+                  <p className="text-text_200 text-md font-bold mb-1 mt-6">Proceed to Paystack </p>
                   <button
                     className={`w-full ${processingTransaction ? 'animate-pulse' : ''} py-3 flex flex-center text-lg font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition`}
                     onClick={checkout}
@@ -206,7 +202,7 @@ const ServersPage = () => {
                         :
                         <>
                           {redirecting ?
-                            "Redirecting to flutterwave..."
+                            "Redirecting to paystack..."
                             : "Checkout"
                           }
                         </>
@@ -224,7 +220,7 @@ const ServersPage = () => {
                   {
                     manualRedirect ?
                       <p className="text-indigo-600 underline cursor-pointer" onClick={() => {
-                        window.open(flutterwavePaymentURL, "_blank")
+                        window.open(PaymentURL, "_blank")
                       }}>
                         If you have not been redirectd, click here
                       </p> : <></>
