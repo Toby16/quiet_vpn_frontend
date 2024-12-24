@@ -51,6 +51,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // logig with token
+  const login_via_token = async (accessToken, redirectPageOnSucces = "/") => {
+    try {
+      setAccessToken(accessToken);
+      setIsAuthenticated(true);
+      navigate(redirectPageOnSucces); // Redirect on successful login
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error; // Let caller handle errors
+    }
+  };
+
   // Logout function
   const handleLogout = () => {
     setAccessToken(null);
@@ -93,7 +105,7 @@ export const AuthProvider = ({ children }) => {
   }, [accessToken]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signup, login, handleLogout, accessToken }}>
+    <AuthContext.Provider value={{ isAuthenticated, signup, login, login_via_token, handleLogout, accessToken }}>
       {children}
     </AuthContext.Provider>
   );

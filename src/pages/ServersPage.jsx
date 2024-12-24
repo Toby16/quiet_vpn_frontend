@@ -49,19 +49,29 @@ const ServersPage = () => {
   const checkout = async () => {
     setProcessingTransaction(true)
     let redirect_url = "https://security.ghostroute.io/" + "/verifypayment"
-    // redirect_url = "http://localhost:5173/verifypayment" 
+    // redirect_url = "http://localhost:5173/verifypayment"
+
+    const url = new URL(redirect_url);
+    
     try {
-      const payload = {
+      const payment_payload = {
         "days_paid": amountOfDays,
         "server_ip": selectedPlan.server_ip,
-        "redirect_url": redirect_url
       }
-      // console.log(payload)
-      // return
-      const checkout_request = await axiosInstance.post("/payment/paystack/", payload)
-      console.log(checkout_request)
-      sessionStorage.setItem("gvtd", checkout_request.data.trans_id)
-      // return
+      const createPayment_request = await axiosInstance.post("/payment/create/", payment_payload)
+      const trans_id = createPayment_request.data.trans_id
+      // redirect_url += "?trans_id="+trans_id
+      url.searchParams.set("trans_id", trans_id)
+      console.log(url)
+
+      const paystack_payload = {
+        "trans_id": trans_id,
+        "redirect_url": url
+      }
+
+      const checkout_request = await axiosInstance.post("/payment/paystack/", paystack_payload)
+      // console.log(checkout_request)
+
 
       setRedirecting(true)
       setTimeout(() => {
@@ -73,7 +83,7 @@ const ServersPage = () => {
       window.open(checkout_request.data.response.authorization_url, "_blank")
       setRedirecting(false)
     } catch (error) {
-      console.error(error)
+      // console.error(error)
       // error
     }
     setProcessingTransaction(false)

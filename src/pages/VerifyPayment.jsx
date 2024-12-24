@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 import { Ghost } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthProvider";
 // import { useAuth } from "../components/AuthProvider";
 
 const VerifyPaymentPage = () => {
@@ -12,16 +13,18 @@ const VerifyPaymentPage = () => {
     const [infoText, setInfoText] = useState("Your payment is being verified...")
     const [subInfoText, setSubInfoText] = useState("Try not to close this browser tab")
     const navigate = useNavigate();
+    const { login_via_token } = useAuth();
 
     const verifyPayment = async () => {
         try {
-            const url = String(window.location.href)
-            // console.log(url)
-            const transaction_id = url.split('trxref')[1].substring(1).split('=')[1]
+            const url = new URL(window.location.href); // Current URL
+            const params = new URLSearchParams(url.search);
+
+            const transaction_id =params.get("trxref")
             console.log(transaction_id)
-            const trans_id = sessionStorage.getItem("gvtd")
+            const trans_id = params.get('trans_id')
             console.log(trans_id)
-            const plan = JSON.parse(sessionStorage.getItem("selectedPlan"))
+
             const payload = {
                 "transaction_id": transaction_id,
                 "trans_id": trans_id
@@ -29,26 +32,30 @@ const VerifyPaymentPage = () => {
             // console.log(payload)
             // return
             // console.log(payload, "initial payload")
-            await axios.post("https://quiet.pumpeet.me/payment/paystack/verify/", payload)
+            console.log(payload, "verify payload")
+            const payment_verification_request = await axios.post("https://quiet.pumpeet.me/payment/paystack/verify/", payload)
+            console.log(payment_verification_request)
             setVerified(true)
             setInfoText("Enjoy your purchase you wonderful Internet user you! <3")
-            setSubInfoText("You can close this tab now!")
-            
-            sessionStorage.removeItem("selectedPlan")
-            setTimeout(()=>{
+            // setSubInfoText("You can close this tab now!")
+            setSubInfoText("Now redirecting...")
+
+            setTimeout(() => {
+                const token = payment_verification_request.data.token.token
+                login_via_token(token, "/purchases")
+
                 // navigate("/login")
-            }, 2000)
+            }, 3000)
             // this will come back to bite me in the ass i just know it
             // window.location.href = window.location.href.split('/')[0]+"login"
         } catch (e) {
             setInfoText("There seems to have been an issue :(")
             setSubInfoText("")
-            console.error(e)
+            // console.error(e)
             setVerified(false)
-            setTimeout(()=>{
+            setTimeout(() => {
                 // navigate("/login")
             }, 2000)
-            e
             // console.log(e)
         }
     }
@@ -65,18 +72,18 @@ const VerifyPaymentPage = () => {
                     <Ghost className="w-14 h-14 text-indigo-600" />
                     <span className="ml-2 text-3xl font-bold text-text_100">GhostRoute</span>
                 </div>
-                <p className={`my-auto p-10 text-3xl md:text-5xl text-slate-50 ${verified?'':'animate-pulse'}`}>
+                <p className={`my-auto p-10 text-3xl md:text-5xl text-slate-50 ${verified ? '' : 'animate-pulse'}`}>
                     {infoText}
                 </p>
                 <p className="mt-2 px-10 text-md md:text-xl text-gray-400">
                     <span>
 
                         {subInfoText} {
-                            verified ?
-                                <span className="text-1xl text-indigo-600 underline cursor-pointer" onClick={() => navigate("/login")}>
-                                    Or proceed to login for Config
-                                </span>
-                                : <></>
+                            // verified ?
+                            //     <span className="text-1xl text-indigo-600 underline cursor-pointer" onClick={() => navigate("/login")}>
+                            //         Or proceed to login for Config
+                            //     </span>
+                            //     : <></>
                         }
                     </span>
                 </p>

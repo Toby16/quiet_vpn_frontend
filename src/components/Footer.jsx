@@ -1,6 +1,8 @@
 import { Instagram, Twitter } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const Footer = () => {
+    const navigate = useNavigate();
 
     return (
         <footer>
@@ -16,7 +18,10 @@ const Footer = () => {
                         <a href="/about" className="hover:text-violet-600 transition-colors">
                             About Us
                         </a>
-                        <a href="/servers" className="hover:text-violet-600 transition-colors">
+                        <a  onClick={(e)=>{
+                            e.preventDefault();
+                            navigate("/servers")
+                        }} className="hover:text-violet-600 transition-colors">
                             Plans
                         </a>
                         <a href="#faq" className="hover:text-violet-600 transition-colors">

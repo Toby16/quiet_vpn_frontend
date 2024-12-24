@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { useRef } from 'react';
 import { useAuth } from '../components/AuthProvider.jsx';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
+import ScrollingText from '../components/ScrollingText.jsx';
 
 const LoginPage = () => {
   const errRef = useRef();
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(isAuthenticated){
+    if (isAuthenticated) {
       navigate("/")
     }
   }, []);
@@ -46,7 +47,7 @@ const LoginPage = () => {
 
       if (!error?.message) {
         setErrMsg("No server response")
-      } else if(!error?.status){
+      } else if (!error?.status) {
         setErrMsg(error.message)
       } else if (errMsg.response?.status === 409) {
         setErrMsg("Incorrect Username or Password")
@@ -59,13 +60,16 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg_100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="retlative min-h-screen bg-bg_100 flex flex-col justify-center sm:px-6 lg:px-8">
+      <div className='top-0 absolute w-full left-0'>
+        <ScrollingText text={"Enjoy 12GB data free on any network after your first 2 purchases!"} />
+      </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center"
           onClick={() => {
             setTimeout(() => {
-            setEmail("alfredvachila@gmail.com")
-            setPwd("@Plantain123")
+              setEmail("alfredvachila@gmail.com")
+              setPwd("@Plantain123")
               submitForm()
             }, 1000)
           }}
@@ -127,7 +131,7 @@ const LoginPage = () => {
             <div>
               <button
                 type="submit"
-                disabled={!pwd || (!email ? true : false) || awaitingResponse} 
+                disabled={!pwd || (!email ? true : false) || awaitingResponse}
                 className="w-full flex justify-center h-11 flex-center px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-text_200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.preventDefault();
@@ -147,7 +151,7 @@ const LoginPage = () => {
           </form>
 
           <div className='mt-10 flex flex-center '>
-            <span className='text-text_200'>{"Don't have an acocunt?"} </span>
+            <span className='text-text_200'>{"Don't have an account?"} </span>
             <a href='/signup' onClick={(e) => { e.preventDefault(); navigate("/signup") }} className='text-indigo-600 underline'>Sign Up</a>
           </div>
         </div>
