@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { ChevronDown, Clock, Shield, Zap } from "lucide-react";
+import { ChevronDown, Clock, Link, Shield, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useAuth } from "../components/AuthProvider";
@@ -73,12 +73,13 @@ const HomePage = () => {
           </div>
 
           {/* Features */}
-          <section className="grid grid-cols-1 md:grid-cols-3 flex-center gap-2">
+          <section className="grid grid-cols-1 md:grid-cols-2 flex-center gap-2">
             {
               [
                 { icon: <Clock className="size-full" />, title: "Flexible Duration", info: "Pick a plan for as many days as you need, 1 day or more!" },
                 { icon: <Zap className="size-full" />, title: "Fast and Secure", info: "Protect your data and enjoy high speed browsing" },
-                { icon: <Shield className="size-full" />, title: "Private, Quiet", info: "No logs, no tracking" }
+                { icon: <Shield className="size-full" />, title: "Private, Quiet", info: "No logs, no tracking" },
+                { icon: <Link className="size-full" />, title: "Use on any device", info: "One config will work across all your devices" }
               ].map((item, index) => (
                 <div className="size-full rounded-xl shadow border border-violet-600/30 flex text-center flex-center gap-1 flex-col text-violet-600 py-10 px-6" key={index}>
                   <span className="size-10 mb-3">

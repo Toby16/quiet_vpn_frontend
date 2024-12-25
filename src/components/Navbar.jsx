@@ -23,7 +23,7 @@ const Navbar = ({ currentPage }) => {
       <div onClick={() => setMenuOpen(false)} className={`${menuOpen ? "fixed inset-0 bg-black/50" : "hidden"}`} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="flex justify-between h-16">
 
           {/* left side of nav bar */}
@@ -106,7 +106,7 @@ const Navbar = ({ currentPage }) => {
         </div>
 
       </div>
-        <ScrollingText text={"Enjoy 12GB data free on any network after your first 2 purchases!"} />
+      <ScrollingText text={"Enjoy 12GB data free on any network after your first 2 purchases!"} />
     </nav>
   )
 }
