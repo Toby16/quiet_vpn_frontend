@@ -106,7 +106,7 @@ const Navbar = ({ currentPage }) => {
         </div>
 
       </div>
-      <ScrollingText text={"Enjoy 12GB data free on any network after your first 2 purchases!"} />
+      <ScrollingText />
     </nav>
   )
 }

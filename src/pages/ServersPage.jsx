@@ -9,18 +9,23 @@ const ServersPage = () => {
   const [servers, setServers] = useState([])
   const [selectedPlan, setSelectedPlan] = useState();
   const [viewMode, setViewMode] = useState("list"); // "list" or "details"
-  const [amountOfDays, setAmountOfDays] = useState(1)
+  const [timeLength, settimeLength] = useState(1)
   const [processingTransaction, setProcessingTransaction] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
   const [manualRedirect, setManualRedirect] = useState(false)
   const [PaymentURL, setPaymentURL] = useState('')
 
+  const [timePeriod, setTimePeriod] = useState("Days")
+  const handleTimePeriodChange = (event) => {
+    setTimePeriod(event.target.value)
+  }
+
   const [touchStartX, setTouchStartX] = useState(0); // To track swipe start
   const [touchEndX, setTouchEndX] = useState(0); // To track swipe end
 
 
-  const updateAmountOfDays = (newAmount) => {
-    setAmountOfDays(Math.max(1, newAmount)); // Ensure minimum of 1
+  const updatetimeLength = (newAmount) => {
+    settimeLength(Math.max(1, newAmount)); // Ensure minimum of 1
   };
 
 
@@ -52,17 +57,17 @@ const ServersPage = () => {
     // redirect_url = "http://localhost:5173/verifypayment"
 
     const url = new URL(redirect_url);
-    
+
     try {
       const payment_payload = {
-        "days_paid": amountOfDays,
+        "days_paid": timeLength * (timePeriod == "months"?30:1),
         "server_ip": selectedPlan.server_ip,
       }
       const createPayment_request = await axiosInstance.post("/payment/create/", payment_payload)
       const trans_id = createPayment_request.data.trans_id
       // redirect_url += "?trans_id="+trans_id
       url.searchParams.set("trans_id", trans_id)
-      console.log(url)
+      // console.log(url)
 
       const paystack_payload = {
         "trans_id": trans_id,
@@ -126,7 +131,7 @@ const ServersPage = () => {
 
             {/* Server list */}
             <div className="w-1/2 px-6 sm:px-0">
-              <div className="grid gap-6 mb-8 sm:grid-cols-2 xl:grid-co ">
+              <div className="grid gap-6 mb-8 sm:grid-cols-2 xl:grid-cols-3 ">
                 {servers.length > 0 ? (
                   servers.map((server) => (
                     <ServerCard
@@ -153,34 +158,47 @@ const ServersPage = () => {
 
 
               {selectedPlan ? (
-                <section className="flex gap-2 flex-col px-6 py-8 bg-bg_200">
+                <section className="flex gap-2 flex-col px-6 py-8 mx-6 bg-bg_200">
                   <h2 className="text-3xl font-bold mb-4 text-text_100">Adjust Selected Plan</h2>
                   <TitleAndSubtitle title={'Location'} subtitle={selectedPlan.location} />
                   <TitleAndSubtitle title={'Price (per day)'} subtitle={selectedPlan.price} />
 
                   <div className="">
 
-                    <p className="text-text_200 text-md font-bold mb-2">For how many days?: </p>
+                    <p className="text-text_200 text-md font-bold mb-2">For how long?: </p>
+                    <div className="flex gap-4">
 
-                    <div className="flex items-center gap-4">
-                      <button
-                        className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-violet-300"
-                        onClick={() => updateAmountOfDays(amountOfDays - 1)}
+                      <div className="flex items-center gap-2">
+                        <button
+                          className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-violet-300"
+                          onClick={() => updatetimeLength(timeLength - 1)}
+                        >
+                          <Minus size={20} />
+                        </button>
+                        <input
+                          type="number"
+                          value={timeLength}
+                          onChange={(e) => updatetimeLength(Number(e.target.value))}
+                          className="w-20 h-10 text-center font-bold text-gray-800 bg-gray-100 border border-gray-300 rounded-md focus:ring focus:ring-violet-400"
+                        />
+                        <button
+                          className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-violet-300"
+                          onClick={() => updatetimeLength(timeLength + 1)}
+                        >
+                          <Plus size={20} />
+                        </button>
+                      </div>
+
+                      <select
+                        id="time-period"
+                        name="time-period"
+                        value={timePeriod}
+                        onChange={handleTimePeriodChange}
+                        className="rounded-md size-fit px-2 py-2"
                       >
-                        <Minus size={20} />
-                      </button>
-                      <input
-                        type="number"
-                        value={amountOfDays}
-                        onChange={(e) => updateAmountOfDays(Number(e.target.value))}
-                        className="w-20 h-10 text-center font-bold text-gray-800 bg-gray-100 border border-gray-300 rounded-md focus:ring focus:ring-violet-400"
-                      />
-                      <button
-                        className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-violet-300"
-                        onClick={() => updateAmountOfDays(amountOfDays + 1)}
-                      >
-                        <Plus size={20} />
-                      </button>
+                        <option value="days">Day{timeLength > 1 ? "s" : ""}</option>
+                        <option value="months">Month{timeLength > 1 ? "s" : ""}</option>
+                      </select>
                     </div>
                   </div>
 
@@ -192,11 +210,16 @@ const ServersPage = () => {
                       </span>
                       {" "} per day for {" "}
                       <span className="text-indigo-400">
-                        {amountOfDays} days
+                        {
+                          timePeriod == "months"?
+                          timeLength * 30 + " days"
+                          :
+                          timeLength + " days"
+                        }
                       </span>
                       {" "} =  {" "}
                       <span className="text-indigo-600 font-bold">
-                        {"₦" + selectedPlan.price * amountOfDays}
+                        {"₦" + selectedPlan.price * timeLength * (timePeriod == "months"?30:1)}
                       </span>
                     </>
                   } />

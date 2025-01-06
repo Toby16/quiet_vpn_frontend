@@ -1,8 +1,8 @@
 import Navbar from "../components/Navbar";
 
 const Tip = ({ header, subject }) => {
-  return <div className="mb-4">
-    <p className="text-text_100 text-sm font-bold">{header}</p>
+  return <div className="mb-6">
+    <p className="text-text_100 text-sm font-bold ">{header}</p>
     <p className="text-text_200 text-md">
       {subject}
     </p>
@@ -24,7 +24,21 @@ const TutorialsPage = () => (
           />
           <Tip
             header={"2. Watch the video below"}
-            subject={<> to be continued</>}
+            subject={<>
+              <iframe
+                src="https://www.youtube.com/embed/y_2bxWwqbVo"
+                title="WireGuard Tutorial"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                >
+              </iframe>
+
+            </>}
+          />
+          <Tip
+            header={"3. Thats it!"}
+            subject={<>Enjoy your fast, safe internet connection!</>}
           />
         </section>
       </div>

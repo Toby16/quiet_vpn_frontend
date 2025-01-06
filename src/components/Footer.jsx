@@ -1,8 +1,10 @@
 import { Instagram, Twitter } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { useToast } from "./ToastContext";
 
 const Footer = () => {
     const navigate = useNavigate();
+    const { showToast } = useToast()
 
     return (
         <footer>
@@ -15,27 +17,30 @@ const Footer = () => {
 
                     {/* Navigation Links */}
                     <div className="flex space-x-4">
-                        <a href="/about" className="hover:text-violet-600 transition-colors">
+                        <a href="#main" className="hover:text-violet-600 transition-colors">
                             About Us
                         </a>
                         <a  onClick={(e)=>{
                             e.preventDefault();
                             navigate("/servers")
-                        }} className="hover:text-violet-600 transition-colors">
+                        }} className="hover:text-violet-600 transition-colors cursor-pointer">
                             Plans
                         </a>
-                        <a href="#faq" className="hover:text-violet-600 transition-colors">
+                        <a href="#faq" className="hover:text-violet-600 transition-color cursor-pointer">
                             FAQ
                         </a>
-                        <a href="/contact" className="hover:text-violet-600 transition-colors">
-                            Contact
+                        <a href="mailto:example@email.com?subject=Contact Us&body=Hello, I need assistance with..."  onClick={()=>{
+                            navigator.clipboard.writeText("support.ghostroutevpn@gmail.com")
+                            showToast("Copied email to clipboard")
+                        }} className="hover:text-violet-600 transition-colors">
+                            Contact Us
                         </a>
                     </div>
 
                     {/* Social Media */}
                     <div className="flex space-x-4 mt-4 md:mt-0">
                         <a
-                            href="#"
+                            href="https://www.instagram.com/security.ghostroute/"
                             className="text-violet-600 hover:text-violet-400 transition-colors"
                             aria-label="Twitter"
                         >

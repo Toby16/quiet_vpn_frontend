@@ -10,6 +10,7 @@ import { AuthProvider } from './components/AuthProvider'
 import ProtectedRoute from './hooks/ProtectedRoute'
 import VerifyPaymentPage from './pages/VerifyPayment'
 import InternetCheck from './components/InternetCheck'
+import { ToastProvider } from './components/ToastContext'
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+
+          <ToastProvider >
           <InternetCheck />
 
           <Routes>
@@ -49,6 +52,8 @@ function App() {
               // </ProtectedRoute>
             } />
           </Routes>
+
+          </ToastProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>

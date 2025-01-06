@@ -3,6 +3,7 @@ import { Lock, Globe, ChevronRight, Copy, ChevronUp, ChevronDown, Info, Download
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import LoadingSpinner from "./LoadingSpinner.jsx"
+import { useToast } from "./ToastContext.jsx"
 
 const PlanCard = ({ plan }) => {
   const [flag, setFlag] = useState();
@@ -11,6 +12,8 @@ const PlanCard = ({ plan }) => {
   const [showConfigData, setShowConfigData] = useState(false)
   const [download, setDownloaded] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
+
+  const { showToat } =  useToast();
 
   const updateNameAndFlag = async () => {
     // console.log(plan)
@@ -134,7 +137,10 @@ const PlanCard = ({ plan }) => {
               <div className="min-h-max w-2 bg-indigo-600"></div>
               <div className={`${showConfigData ? "pl-2 leading-snug" : "hidden"}`}>
                 {Object.entries(plan.config_data).map(([key, value]) => (
-                  <p key={key} className="text-sm break-all" onClick={() => copyToClipBoard(value)}>
+                  <p key={key} className="text-sm break-all" onClick={() => {
+                    copyToClipBoard(value);
+                    showToat(value.substring(0, 20))
+                  }}>
                     <span className="inline">
                       <span className="font-bold ">{key}: </span>
                       <span className="font-bold text-indigo-400">{value}:</span>

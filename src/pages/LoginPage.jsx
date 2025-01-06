@@ -62,18 +62,10 @@ const LoginPage = () => {
   return (
     <div className="retlative min-h-screen bg-bg_100 flex flex-col justify-center sm:px-6 lg:px-8">
       <div className='top-0 absolute w-full left-0'>
-        <ScrollingText text={"Enjoy 12GB data free on any network after your first 2 purchases!"} />
+        <ScrollingText />
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center"
-          onClick={() => {
-            setTimeout(() => {
-              setEmail("alfredvachila@gmail.com")
-              setPwd("@Plantain123")
-              submitForm()
-            }, 1000)
-          }}
-        >
+        <div className="flex justify-center">
           <Ghost className="w-12 h-12 text-indigo-600" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-text_100">
