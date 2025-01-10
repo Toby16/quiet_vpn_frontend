@@ -60,7 +60,7 @@ const ServersPage = () => {
 
     try {
       const payment_payload = {
-        "days_paid": timeLength * (timePeriod == "months"?30:1),
+        "days_paid": timeLength * (timePeriod == "months" ? 30 : 1),
         "server_ip": selectedPlan.server_ip,
       }
       const createPayment_request = await axiosInstance.post("/payment/create/", payment_payload)
@@ -107,6 +107,11 @@ const ServersPage = () => {
     )
   }
 
+  const getTotalPrice = () => {
+    let price = "₦" + (selectedPlan.price * timeLength * (timePeriod == "months" ? 30 : 1)).toFixed(2)
+    return price
+  }
+
   return (
 
     <div className="min-h-screen bg-bg_100 pt-16">
@@ -116,7 +121,6 @@ const ServersPage = () => {
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden">
-          <p className="text-text_100 text-3xl px-6 sm:px-0 py-6 font-bold">Select a Server</p>
 
           {/* Sliding container */}
           <div
@@ -130,7 +134,8 @@ const ServersPage = () => {
           >
 
             {/* Server list */}
-            <div className="w-1/2 px-6 sm:px-0">
+            <div className="w-1/2 px-6 sm:px-0 h-screen overflow-y-scroll">
+              <p className="text-text_100 text-3xl px-0 sm:px-0 py-6 font-bold">Select a Server</p>
               <div className="grid gap-6 mb-8 sm:grid-cols-2 xl:grid-cols-3 ">
                 {servers.length > 0 ? (
                   servers.map((server) => (
@@ -160,8 +165,11 @@ const ServersPage = () => {
               {selectedPlan ? (
                 <section className="flex gap-2 flex-col px-6 py-8 mx-6 bg-bg_200">
                   <h2 className="text-3xl font-bold mb-4 text-text_100">Adjust Selected Plan</h2>
-                  <TitleAndSubtitle title={'Location'} subtitle={selectedPlan.location} />
-                  <TitleAndSubtitle title={'Price (per day)'} subtitle={selectedPlan.price} />
+                  <TitleAndSubtitle title={'Location'} subtitle={<span className="flex items-center gap-2">
+                    <img className="h-6 inline" src={selectedPlan.flag_url} />
+                    {selectedPlan.location}
+                  </span>} />
+                  <TitleAndSubtitle title={'Price (per day)'} subtitle={"₦" + selectedPlan.price} />
 
                   <div className="">
 
@@ -211,15 +219,15 @@ const ServersPage = () => {
                       {" "} per day for {" "}
                       <span className="text-indigo-400">
                         {
-                          timePeriod == "months"?
-                          timeLength * 30 + " days"
-                          :
-                          timeLength + " days"
+                          timePeriod == "months" ?
+                            timeLength * 30 + " days"
+                            :
+                            timeLength + " days"
                         }
                       </span>
                       {" "} =  {" "}
                       <span className="text-indigo-600 font-bold">
-                        {"₦" + selectedPlan.price * timeLength * (timePeriod == "months"?30:1)}
+                        {getTotalPrice()}
                       </span>
                     </>
                   } />
