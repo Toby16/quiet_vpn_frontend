@@ -159,12 +159,12 @@ const ServersPage = () => {
             </div>
 
             {/* Selected plan adjustment */}
-            <div className="w-1/2 ">
+            <div className="w-1/2 px-6 sm:px-0 ">
 
+              <h2 className="text-3xl py-6 font-bold  text-text_100">Adjust Selected Plan</h2>
 
               {selectedPlan ? (
-                <section className="flex gap-2 flex-col px-6 py-8 mx-6 bg-bg_200">
-                  <h2 className="text-3xl font-bold mb-4 text-text_100">Adjust Selected Plan</h2>
+                <section className="flex gap-2 flex-col px-6 py-6 bg-bg_200">
                   <TitleAndSubtitle title={'Location'} subtitle={<span className="flex items-center gap-2">
                     <img className="h-6 inline" src={selectedPlan.flag_url} />
                     {selectedPlan.location}
@@ -232,7 +232,7 @@ const ServersPage = () => {
                     </>
                   } />
 
-                  <p className="text-text_200 text-md font-bold mb-1 mt-6">Proceed to Paystack </p>
+                  <p className="text-text_200 text-md font-bold mb-1 mt-4">Proceed to Paystack </p>
                   <button
                     className={`w-full ${processingTransaction ? 'animate-pulse' : ''} py-3 flex flex-center text-lg font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition`}
                     onClick={checkout}
